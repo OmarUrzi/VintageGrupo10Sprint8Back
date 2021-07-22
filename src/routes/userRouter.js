@@ -20,14 +20,11 @@ const storage = multer.diskStorage({
     }
 });
 
+const validations = require('../middlewares/usersValidation');
+
 const upload = multer({ storage });
 
-const validations = [
-    body('nombre').notEmpty().withMessage('El campo no puede estar vacio'),
-    body('email').isEmail().withMessage('Ingrese un email valido'),
-    body('clave').isLength({ min: 8 }).withMessage('Ingrese al menos 8 caracteres'),
 
-]
 
 
 router.get('/registro', loggedMiddleware, userController.register);
@@ -45,7 +42,7 @@ router.get('/logout', guestMiddleware, userController.logout);
 router.get('/edit', userController
     .edit);
 
-router.post('/edited', userController.update)
+router.post('/edited', userController.update, validations)
 
 module.exports = router
 

@@ -14,42 +14,14 @@ const storage = multer.diskStorage({
 
 const { body } = require('express-validator')
 
+const validations = require('../middlewares/productValidation');
 
 const upload = multer({ storage })
 
 
 
-const validaciones = [
 
-    body('name').notEmpty().withMessage('En nombre no puede estar en blanco').bail()
 
-    .isString().withMessage('Deber ser un String'),
-
-    body('price').notEmpty().withMessage('En precio no puede estar en blanco'),
-    body('descuento').notEmpty().withMessage('En descuento no puede estar en blanco'),
-
-    body('image').custom((value, { req }) => {
-        let file = req.file
-            // Si es undefined, se relaciona con  Multer
-        if (!file) {
-            throw new Error('Debe agregar una foto');
-        }
-
-        return true
-
-    })
-]
-
-const validacionesEdit = [
-
-    body('name').notEmpty().withMessage('En nombre no puede estar en blanco').bail()
-
-    .isString().withMessage('Deber ser un String'),
-
-    body('price').notEmpty().withMessage('En precio no puede estar en blanco'),
-    body('descuento').notEmpty().withMessage('En descuento no puede estar en blanco')
-
-]
 
 router.get('/listar', productController.list)
 
@@ -61,9 +33,9 @@ router.get('/detail/:id', productController.detail)
 
 router.get('/create', upload.single('image'), productController.create)
 
-router.post('/store', upload.single('image'), validaciones, productController.store);
+router.post('/store', upload.single('image'), validaciones, validations, productController.store);
 
-router.put('/:id', upload.single('image'), validacionesEdit, productController.update);
+router.put('/:id', upload.single('image'), validacionesEdit, validations, productController.update);
 
 //router.put('/:id/recover', productController.recover);
 
