@@ -5,7 +5,6 @@ const userController = require('../controller/userController');
 const path = require('path');
 //const auth = require('../middlewares/authMiddleware');
 
-const { body } = require('express-validator');
 const { nextId } = require('../model/users');
 const guestMiddleware = require('../middlewares/guestMiddleware');
 const userLoggedMiddleware = require('../middlewares/userLoggedMiddleware');

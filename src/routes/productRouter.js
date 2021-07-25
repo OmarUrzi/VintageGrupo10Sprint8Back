@@ -31,11 +31,11 @@ router.get('/edit/:id', productController.edit)
 
 router.get('/detail/:id', productController.detail)
 
-router.get('/create', upload.single('image'), productController.create)
+router.get('/create', upload.single('image'), validations, productController.create)
 
-router.post('/store', upload.single('image'), validaciones, validations, productController.store);
+router.post('/store', upload.single('image'), validations, productController.store);
 
-router.put('/:id', upload.single('image'), validacionesEdit, validations, productController.update);
+router.put('/:id', upload.single('image'), validations, productController.update);
 
 //router.put('/:id/recover', productController.recover);
 
