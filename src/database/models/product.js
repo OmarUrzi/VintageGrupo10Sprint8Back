@@ -18,18 +18,18 @@ module.exports = (sequelize, DataTypes) => {
       // belongsToMany
       Product.belongsToMany(models.Color, {
         as: 'colors',
-        through: 'colorProduct',
+        through: 'colorProducts',
       });
       // belongsToMany
       Product.belongsToMany(models.Category, {
         as: 'categories',
-        through: 'CategoryProduct',
+        through: 'CategoryProducts',
 
       });
       // belongsToMany
       Product.belongsToMany(models.Size,{
         as: 'sizes',
-        through: 'SizeProduct'
+        through: 'SizeProducts'
       });
     
     }

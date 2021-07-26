@@ -1,11 +1,11 @@
 const path = require('path');
-const db = require('../database/models');
-const sequelize = db.sequelize;
+const DB = require('../database/models');
+const sequelize = DB.sequelize;
 
 let homeController = {
 
     leerTodos: (req, res) =>{
-        db.Product.findAll()
+        DB.Product.findAll()
             .then(products => {
                 return res.render(path.resolve(__dirname, '..', 'views',  'index'),{products})
             })

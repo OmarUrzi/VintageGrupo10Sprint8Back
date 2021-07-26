@@ -2,6 +2,7 @@ const path = require('path');
 const DB = require('../database/models');
 const sequelize = DB.sequelize;
 const { Op } = require("sequelize");
+const { nextTick } = require('process');
 
 let productController = {
     home: (req, res) => {
@@ -9,10 +10,9 @@ let productController = {
     },
     list: async(req, res) => {
         try {
-            let products = await DB.Product.findAll({
-                include: ["brands", "categories", "colors"]
-            });
-            return res.render('listadoProductos', { products: products })
+            let products = await DB.Product.findAll();
+            return res.render(path.resolve(__dirname, '..', 'views',  'listadoProductos'),{products})
+            
         } catch (error) {
             res.send(error);
         }
@@ -21,7 +21,8 @@ let productController = {
         try {
             const product = await DB.Product.findByPk(req.params.id);
             console.log(product)
-            return res.render('productDetail', { product });
+            return res.render(path.resolve(__dirname, '..', 'views',  'detail-product'),{product})
+    
         } catch (error) {
             res.send(error);
         }
@@ -31,7 +32,9 @@ let productController = {
             let productBrand = await DB.Brand.findAll()
             let productCategory = await DB.Category.findAll()
             let productColor = await DB.Color.findAll()
-            return res.render('create', { brand, categoryproduct, colorproduct })
+            console.log(productBrand[0].dataValues.name)
+            return res.render(path.resolve(__dirname, '..', 'views',  'create'),{ productBrand, productCategory, productColor })
+        
         } catch (error) {
             res.render('error404')
             console.log(error);
@@ -42,17 +45,27 @@ let productController = {
     store: async(req, res) => {
         console.log('llegue al store')
         console.log(req.body)
-        let productCreate = await DB.Product.create({
+        
+        DB.Product.create({
             name: req.body.name,
             description: req.body.description,
             price: req.body.price,
+            discount: req.body.discount,
             image: req.file.filename,
-            stock: req.body.stock,
-            brandId: req.body.brandId,
-            categoryId: req.body.categoryId,
-            colorId: req.body.colorId
+            brandId: req.body.brand,
+            categoryId: req.body.category,
+            colorId: req.body.color
         })
-        res.redirect('/');
+        .then(response =>{
+            return res.redirect('/')
+
+        })
+        .catch(error =>{
+            console.log(error)
+        })
+       
+        
+
     },
 
     edit: async(req, res) => {
@@ -84,10 +97,9 @@ let productController = {
             description: req.body.description,
             price: req.body.price,
             image: req.body.image,
-            stock: req.body.stock,
-            brandId: req.body.brandId,
-            categoryId: req.body.categoryId,
-            colorId: req.body.colorId
+            brandId: req.body.brand,
+            categoryId: req.body.category,
+            colorId: req.body.color
         }, {
             where: {
                 id: req.params.id

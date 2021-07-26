@@ -34,10 +34,45 @@
                         </div>
 
                         <div class="separador">
-                            <label for="descuento">descuento</label>
+                            <label for="description">Descripcion</label>
+                            <div class="container-input">
+                                <input type="text" name="description">
+                            </div>
+                        </div>
+
+                        <div class="separador">
+                            <label for="descuento">Descuento</label>
                             <div class="container-input">
                                 <input type="text" name="descuento">
                             </div>
+                        </div>
+
+                        <div class="separador">
+                            <label for="brand">Marca</label>
+                            <select id="brand" name="brand">
+                                <% for (let i = 0; i < productBrand.length; i++){ %>
+                                    <option value=<%= productBrand[i].dataValues.id %>><%= productBrand[i].dataValues.name %></option>
+                                <% } %>
+                            </select>
+                            
+                        </div>
+
+                        <div class="separador">
+                            <label for="category">Categoria</label>
+                            <select id="category" name="category">
+                                <% for (let i = 0; i < productCategory.length; i++){ %>
+                                    <option value=<%= productCategory[i].dataValues.id %>><%= productCategory[i].dataValues.name %></option>
+                                <% } %>
+                            </select>
+                        </div>
+
+                        <div class="separador">
+                            <label for="color">Color</label>
+                            <select name="color" id="color">
+                                <% for (let i = 0; i < productColor.length; i++){ %>
+                                    <option value=<%= productColor[i].dataValues.id %>><%= productColor[i].dataValues.name %></option>
+                                <% } %>
+                            </select>
                         </div>
 
                         <div class="separador">
@@ -46,10 +81,6 @@
                             </div>
                         </div>
                     </form>
-
-
-
-
-
+                  
     </body>
 </html>

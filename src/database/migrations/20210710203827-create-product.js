@@ -20,6 +20,9 @@ module.exports = {
       image: {
         type: Sequelize.STRING
       },
+      discount: {
+        type: Sequelize.STRING
+      },
       keywords: {
         type: Sequelize.TEXT
       },
@@ -41,6 +44,27 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'sizes',
+          key: 'id'
+        }
+      },
+      categoryId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'categories',
+          key: 'id'
+        }
+      },
+      colorId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'colors',
+          key: 'id'
+        }
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
           key: 'id'
         }
       },
