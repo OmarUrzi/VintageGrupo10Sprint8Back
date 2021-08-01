@@ -35,42 +35,44 @@
                         </div>
                     </div>
                     <section class="login">
-                        <form class="formulario" action="/users/inicio-sesion" method="POST">
+                        <form id="formularioLogin" class="formularioLogin" action="/users/inicio-sesion" method="POST">
                             <div class="contenedor-login">
                                 <h1>Login</h1>
-                                <% if(locals.errors && errors.email){ %>
-                                    <div class="danger">
-                                        <%= errors.email.msg %>
-                                    </div>
-                                    <% } %>
-                                        <div class="input-contenedor">
-                                            <i class="fas fa-envelope icon"></i>
-                                            <input type="text" placeholder="Correo Electronico" name="email">
 
-                                        </div>
-                                        <% if(locals.errors && errors.clave){ %>
-                                            <div class="danger">
-                                                <%= errors.clave.msg %>
-                                            </div>
-                                            <% } %>
-                                                <div class="input-contenedor">
-                                                    <i class="fas fa-key icon"></i>
-                                                    <input type="password" placeholder="Contraseña" name="clave">
-                                                </div>
-                                                <div class="container-recordame">
-                                                    <input type="checkbox" id="" name="recordame">
-                                                    <label for="" class="recordame">Recordame</label>
-                                                </div>
-                                                <input type="submit" value="IniciarSeción" class="button">
-                                                <p>Al registrarte, aceptas nuestras Condiciones de uso y Política de privacidad.</p>
-                                                <p>¿No tienes una cuenta? <a class="link" href="/users/registro">Registrate </a></p>
-                                                <p><a href="#">Recuperar Contraseña</a></p>
+
+                                <div class="input-contenedor" id="grupo__correo">
+                                    <label for="correo" class="formulario__label">Correo</label>
+                                    <i class="fas fa-envelope icon"></i>
+                                    <input type="email" name="correo" id="correo" class="formulario__input">
+                                    <i class="formulario__validacion-estado" class="fas fa-times-circle"></i>
+                                    <p class="formulario__input-error">El correo solo puede contener letras, numeros, puntos, guiones y guion bajo.
+                                </div>
+
+
+                                <div class="input-contenedor" id="grupo__password">
+                                    <label for="password" class="formulario__label">Contraseña</label>
+                                    <i class="fas fa-key icon"></i>
+                                    <input type="password" name="password" id="password" class="formulario__input">
+                                    <i class="formulario__validacion-estado" class="fas fa-times-circle"></i>
+                                    <p class="formulario__input-error">La contraseña tiene que ser de 4 a 12 dígitos.</p>
+
+                                </div>
+
+                                <div class="container-recordame">
+                                    <input type="checkbox" id="" name="recordame">
+                                    <label for="" class="recordame">Recordame</label>
+                                </div>
+                                <input type="submit" value="IniciarSeción" class="button">
+                                <p>Al registrarte, aceptas nuestras Condiciones de uso y Política de privacidad.</p>
+                                <p>¿No tienes una cuenta? <a class="link" href="/users/registro">Registrate </a></p>
+                                <p><a href="#">Recuperar Contraseña</a></p>
                             </div>
                         </form>
                     </section>
                 </section>
 
             </main>
+            <script src="/js/login.js"></script>
     </body>
 
 </html>

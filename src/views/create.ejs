@@ -7,80 +7,46 @@
 
         <%- include('partials/header') %>
 
-        <main>
-            <section class="conteiner-formulario">
-                <h2 class="altaProducto">Alta de Producto</h2>
-                    <form class="container-form" name="image" action="/productos/store" method="POST" enctype="multipart/form-data" >
-                        <div class="separador">     
-                            <label for="name">Nombre</label>
-                            <div class="container-input">
-                                <input type="text" name="name">
-                            </div>
-                         
+            <main>
+                <section class="login">
+                    <h2 class="altaProducto">Alta de Producto</h2>
+                    <form class="formulario" name="createForm" id="createForm" action="/productos/store" method="POST" enctype="multipart/form-data">
+
+                        <div class="input-contenedor" id="grupo__nombre">
+                            <label for="nombre" class="formulario__label">Nombre</label>
+                            <i class="fas fa-user icon"></i>
+                            <input type="text" name="nombre" id="nombre" class="formulario__input">
+                            <i class="formulario__validacion-estado" class="fas fa-times-circle"></i>
+                            <p class="formulario__input-error">El nombre solo puede contener letras y espacios.</p>
+                        </div>
+                        <div class="input-contenedor" id="grupo__precio">
+                            <label for="precio" class="formulario__label">Precio</label>
+                            <i class="fas fa-user icon"></i>
+                            <input type="text" name="precio" id="precio" class="formulario__input">
+                            <i class="formulario__validacion-estado" class="fas fa-times-circle"></i>
+                            <p class="formulario__input-error">El campo precio solo puede contener numeros</p>
                         </div>
 
-                        <div class="separador">
-                            <label for="image">Imagen</label>
-                            <div class="container-input">
-                                <input type="file" name="image">
-                            </div>
+                        <div class="input-contenedor" id="grupo__descuento">
+                            <label for="descuento" class="formulario__label">Descuento</label>
+                            <i class="fas fa-envelope icon"></i>
+                            <input type="email" name="descuento" id="descuento" class="formulario__input">
+                            <i class="formulario__validacion-estado" class="fas fa-times-circle"></i>
+                            <p class="formulario__input-error">El descuento solo puede contener numeros.</p>
                         </div>
 
-                        <div class="separador">
-                            <label for="price">Precio</label>
-                            <div class="container-input">
-                                <input type="text" name="price">
-                            </div>
-                        </div>
 
-                        <div class="separador">
-                            <label for="description">Descripcion</label>
-                            <div class="container-input">
-                                <input type="text" name="description">
-                            </div>
+                        <div class="input-contenedor" id="grupo__imagen">
+                            <label for="" class="formulario__label">Seleccione una imagen</label>
+                            <i class="fas fa-key icon"></i>
+                            <input type="file" name="imagen" id="imagen" class="formulario__input">
+                            <i class="formulario__validacion-estado" class="fas fa-times-circle"></i>
+                            <p class="formulario__input-error"></p>
                         </div>
+                        <input type="submit" value="Crear" class="button">
 
-                        <div class="separador">
-                            <label for="descuento">Descuento</label>
-                            <div class="container-input">
-                                <input type="text" name="descuento">
-                            </div>
-                        </div>
-
-                        <div class="separador">
-                            <label for="brand">Marca</label>
-                            <select id="brand" name="brand">
-                                <% for (let i = 0; i < productBrand.length; i++){ %>
-                                    <option value=<%= productBrand[i].dataValues.id %>><%= productBrand[i].dataValues.name %></option>
-                                <% } %>
-                            </select>
-                            
-                        </div>
-
-                        <div class="separador">
-                            <label for="category">Categoria</label>
-                            <select id="category" name="category">
-                                <% for (let i = 0; i < productCategory.length; i++){ %>
-                                    <option value=<%= productCategory[i].dataValues.id %>><%= productCategory[i].dataValues.name %></option>
-                                <% } %>
-                            </select>
-                        </div>
-
-                        <div class="separador">
-                            <label for="color">Color</label>
-                            <select name="color" id="color">
-                                <% for (let i = 0; i < productColor.length; i++){ %>
-                                    <option value=<%= productColor[i].dataValues.id %>><%= productColor[i].dataValues.name %></option>
-                                <% } %>
-                            </select>
-                        </div>
-
-                        <div class="separador">
-                            <div class="container-input">
-                                <button type="submit" class="crear">Crear producto</button>
-                            </div>
-                        </div>
                     </form>
-                  
+                    <script src="/js/productos.js"></script>
     </body>
+
 </html>
