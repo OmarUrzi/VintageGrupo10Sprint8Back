@@ -55,6 +55,14 @@ let productController = {
             brandId: req.body.brand,
             categoryId: req.body.category,
             colorId: req.body.color
+        },
+            {
+                include: [{
+                  include: [DB.Category]
+                }]
+              
+        }).then (response => {
+            console.log(response)
         })
         .then(response =>{
             return res.redirect('/')

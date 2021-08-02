@@ -16,14 +16,13 @@
                             <div class="titulo">
                                 <h1><%= product.name %></h1>
                                 <i class="fab fa-cc-visa"></i>
-                                <p>6 cuotas sin interés <span>de $ 7.500</span></p>
+                                <p>6 cuotas sin interés <span>de $ <%= product.price / 6%></span></p>
                                 <p><a href="#">Ver más detalle</a></p>
                                 <hr>
                             </div>
                             <div class="colores">
                                 <h2>Descripcion</h2>
-                                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et, voluptatem ex natus dolore, nisi molestiae omnis eligendi libero delectus vero officiis, laborum doloremque fugit accusamus adipisci necessitatibus exercitationem
-                                    asperiores! Molestias.</p>
+                                <p><%= product.description %></p>
                                 <hr>
                             </div>
                             <div class="opciones">
@@ -45,7 +44,7 @@
                             <form action="/carrito" method="GET">
                                 <div class="comrpar">
                                     <div class="cantidad">
-                                        <p class="cantidad-texto">Cantidad: <input type="number" name="contador"></p>
+                                        <p class="cantidad-texto">Cantidad: <input type="number" name="contador" value=<%= product.amount %>></p>
                                     </div>
                                     <button type="submit" value="Comprar" class="comprar">Comprar</button>
                                 </div>
@@ -53,7 +52,6 @@
                             <div class="container-config">
                             <div class="Configuracion">
                                 <% if(product.status == 'live') { %>
-
                                 <form action="/productos/<%=  product.id %>?_method=DELETE" method="POST">
                                     <button type="submit">Borrar</button>
                                 </form>
