@@ -11,7 +11,7 @@ let productController = {
     list: async (req, res) => {
         try {
             let products = await DB.Product.findAll();
-
+            return res.render(path.resolve(__dirname, '..', 'views', 'listadoProductos'), { products })
         } catch (error) {
             res.send(error);
         }
