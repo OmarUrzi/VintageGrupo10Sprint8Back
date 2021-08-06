@@ -10,8 +10,8 @@ const cookies = require('cookie-parser')
 
 const homeRouter = require('./src/routes/homeRouter');
 const productRouter = require('./src/routes/productRouter');
-/*const carritoRouter = require('./src/routes/carritoRouter');
-const userRouter = require('./src/routes/userRouter');*/
+const carritoRouter = require('./src/routes/carritoRouter');
+const userRouter = require('./src/routes/userRouter');
 
 
 app.set('view engine', 'ejs')
@@ -37,5 +37,5 @@ app.listen(puerto || 3000, function() {
 
 app.use('/', homeRouter);
 app.use('/productos', productRouter);
-/*app.use('/carrito', carritoRouter);
-app.use('/users', userRouter);*/
+app.use('/carrito', carritoRouter);
+app.use('/users', userRouter);

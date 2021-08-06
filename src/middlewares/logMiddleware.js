@@ -1,4 +1,4 @@
-/*const fs = require('fs')
+const fs = require('fs')
 
 
 
@@ -7,4 +7,4 @@ function logMiddleware(req,res, next){
     next()
     }
     
-    module.exports = logMiddleware*/
+    module.exports = logMiddleware

@@ -11,25 +11,31 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // belongsTo
-      Product.belongsTo(models.Brand);
+      Product.belongsTo(models.Brand, {
+        as: 'brands',
+        foreignKey: 'brandId',
+      });
       // belongsTo
-      Product.belongsTo(models.User);
+      Product.belongsTo(models.User, {
+        as: 'users',
+        foreignKey: 'userId',
+      });
 
       // belongsToMany
-      Product.belongsToMany(models.Color, {
+      Product.belongsTo(models.Color, {
         as: 'colors',
-        through: 'colorProducts',
+        foreignKey: 'colorId',
       });
       // belongsToMany
-      Product.belongsToMany(models.Category, {
+      Product.belongsTo(models.Category, {
         as: 'categories',
-        through: 'CategoryProducts',
+        foreignKey: 'categoryId',
 
       });
       // belongsToMany
-      Product.belongsToMany(models.Size,{
+      Product.belongsTo(models.Size,{
         as: 'sizes',
-        through: 'SizeProducts'
+        foreignKey: 'sizeId'
       });
     
     }

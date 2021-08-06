@@ -1,20 +1,20 @@
 const express = require('express');
-
 const router = express.Router();
 const productController = require('../controller/productController');
-
 const multer = require('multer');
 const path = require('path');
+const { body } = require('express-validator')
+const validations = require('../middlewares/productValidation');
 
 const storage = multer.diskStorage({
-    destination: path.resolve(__dirname, '../public/img'),
-    filename: (req, file, cb) => { cb(null, 'img-' + Date.now() + path.extname(file.originalname)) }
+    destination: path.resolve(__dirname, '../../public/img/products'),
+    filename: (req, file, cb) => {
+        cb(null, 'img-' + Date.now() + path.extname(file.originalname));
+    }
 });
 
 
-const { body } = require('express-validator')
 
-const validations = require('../middlewares/productValidation');
 
 const upload = multer({ storage })
 
@@ -31,11 +31,11 @@ router.get('/edit/:id', productController.edit)
 
 router.get('/detail/:id', productController.detail)
 
-router.get('/create', upload.single('image'), validations, productController.create)
+router.get('/create', upload.fields([{name:'image'},{name:'image2'},{name:'image3'}]), validations, productController.create)
 
-router.post('/store', upload.single('image'), validations, productController.store);
+router.post('/store', upload.fields([{name:'image'},{name:'image2'},{name:'image3'}]), validations, productController.store);
 
-router.put('/:id', upload.single('image'), validations, productController.update);
+router.put('/:id', upload.fields([{name:'image'},{name:'image2'},{name:'image3'}]), validations, productController.update);
 
 //router.put('/:id/recover', productController.recover);
 

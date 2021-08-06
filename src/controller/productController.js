@@ -8,33 +8,32 @@ let productController = {
     home: (req, res) => {
         res.redirect('/');
     },
-    list: async(req, res) => {
+    list: async (req, res) => {
         try {
             let products = await DB.Product.findAll();
-            return res.render(path.resolve(__dirname, '..', 'views',  'listadoProductos'),{products})
-            
+
         } catch (error) {
             res.send(error);
         }
     },
-    detail: async(req, res) => {
+    detail: async (req, res) => {
         try {
             const product = await DB.Product.findByPk(req.params.id);
             console.log(product)
-            return res.render(path.resolve(__dirname, '..', 'views',  'detail-product'),{product})
-    
+            return res.render(path.resolve(__dirname, '..', 'views', 'detail-product'), { product })
+
         } catch (error) {
             res.send(error);
         }
     },
-    create: async(req, res) => {
+    create: async (req, res) => {
         try {
             let productBrand = await DB.Brand.findAll()
             let productCategory = await DB.Category.findAll()
             let productColor = await DB.Color.findAll()
             console.log(productBrand[0].dataValues.name)
-            return res.render(path.resolve(__dirname, '..', 'views',  'create'),{ productBrand, productCategory, productColor })
-        
+            return res.render(path.resolve(__dirname, '..', 'views', 'create'), { productBrand, productCategory, productColor })
+
         } catch (error) {
             res.render('error404')
             console.log(error);
@@ -42,53 +41,86 @@ let productController = {
     },
 
 
-    store: async(req, res) => {
-        console.log('llegue al store')
-        console.log(req.body)
-        
-        DB.Product.create({
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            discount: req.body.discount,
-            image: req.file.filename,
-            brandId: req.body.brand,
-            categoryId: req.body.category,
-            colorId: req.body.color
-        },
-            {
-                include: [{
-                  include: [DB.Category]
-                }]
-              
-        }).then (response => {
-            console.log(response)
-        })
-        .then(response =>{
-            return res.redirect('/')
+    store: async (req, res) => {
+        //console.log('llegue al store')
+        //console.log(req.body)
+        //console.log(req.files)
+        //console.log('ACA DEBERIA ESTAR EL FILENAME!!!!!!' + req.files.image[0].filename)
 
-        })
-        .catch(error =>{
-            console.log(error)
-        })
+        const t = await sequelize.transaction();
+
+        try {
+
+            const colors = req.body.color
+
+
+            const productCreated = await DB.Product.create({
+                name: req.body.name,
+                description: req.body.description,
+                price: req.body.price,
+                image: req.files.image[0].filename,
+                discount: req.body.discount,
+                brandId: req.body.brand,
+                categoryId: req.body.category,
+                colorId: req.body.color
+            },{ transaction: t })
+            
+            const imagesToStore = await req.files.image.map(file =>{
+                return {
+                    name: file.filename,
+                    productId: productCreated.id,
+                    extension: path.extname(file.filename)
+
+                }
+            },{ transaction: t });
+
+            console.log(imagesToStore)
+
+            const imageIsCreated = await DB.Image.bulkCreate(imagesToStore,{ transaction: t });
+            
+
+            
+
+            
+
+            await t.commit();
+
+            return res.redirect('/');
+
+        }
+        catch (error){
+            await t.rollback()
+    console.log(error)
+        }
+},
        
         
 
-    },
+    
 
-    edit: async(req, res) => {
-        try {
-            let product = await DB.Product.findByPk(req.params.id);
-            console.log(product);
-            res.render("edit", { product });
-        } catch (error) {
-            res.render('error404');
-            console.log(error);
-        }
-    },
+edit: async (req, res) => {
+    try {
+        let productBrand = await DB.Brand.findAll()
+        let productCategory = await DB.Category.findAll()
+        let productColor = await DB.Color.findAll()
+        let product = await DB.Product.findByPk(req.params.id,{include: ['categories', 'colors','brands']});
+        console.log('aca va el nombre ' + product.categories.dataValues.name + ' y el id es ' + product.categories.dataValues.id);
+        productCategory.map( category =>{
+            if(category.dataValues.id === product.categories.dataValues.id){
+                console.log('la categoria id es: ' + category.dataValues.id + ' y la categoria por producto es de ' + product.categories.dataValues.id)
+            }
+            
+        })
+        
+        res.render(path.resolve(__dirname, '..', 'views', 'edit'), { product,productBrand,productCategory, productColor});
+    } catch (error) {
+        res.render('error404');
+        console.log(error);
+    }
+},
 
 
-    update: async(req, res) => {
+    update: async (req, res) => {
         let product = await req.body;
         product.id = req.params.id;
         product.image = req.file ? req.file.filename : req.body.oldImage;
@@ -116,13 +148,13 @@ let productController = {
         res.redirect('/');
     },
 
-    destroy: async(req, res) => {
-        let productId = req.params.id;
-        await DB.Product.destroy({ where: { id: productId }, force: true });
+        destroy: async (req, res) => {
+            let productId = req.params.id;
+            await DB.Product.destroy({ where: { id: productId }, force: true });
 
-        return res.redirect('/')
-            .catch(error => res.send(error))
-    },
+            return res.redirect('/')
+                .catch(error => res.send(error))
+        },
 
     /*delete: (req, res) => {
         let productId = req.params.id;
