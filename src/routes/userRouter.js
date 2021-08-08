@@ -39,14 +39,12 @@ router.get('/inicio-sesion', loggedMiddleware, userController.login);
 
 router.post('/inicio-sesion', userController.loginProcess);
 
-//router.get('/profile', guestMiddleware, userController.profile);
 
 router.get('/profile', guestMiddleware,userController.perfil);
 
 router.get('/logout', guestMiddleware, userController.logout);
 
-router.get('/edit', userController
-    .edit);
+router.get('/edit', userController.edit);
 
 router.post('/edited', userController.update, validations)
 

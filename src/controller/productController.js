@@ -141,6 +141,7 @@ edit: async (req, res) => {
             description: req.body.description,
             price: req.body.price,
             image: req.body.image,
+            discount: req.body.discount,
             brandId: req.body.brand,
             categoryId: req.body.category,
             colorId: req.body.color
