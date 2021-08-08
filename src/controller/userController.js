@@ -76,7 +76,7 @@ let userController = {
                     }
                     return res.redirect('/users/profile')
                 }
-                return res.render('login', {
+                return res.render(path.resolve(__dirname, '..', 'views', 'inicio-sesion'), {
                     errors: {
                         email: {
                             msg: 'Credenciales inválidas'
@@ -85,7 +85,7 @@ let userController = {
                 });
             }
 
-            return res.render('login', {
+            return res.render(path.resolve(__dirname, '..', 'views', 'inicio-sesion'), {
                 errors: {
                     email: {
                         msg: 'No estás registrado'

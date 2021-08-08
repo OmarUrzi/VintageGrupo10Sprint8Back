@@ -3,10 +3,19 @@ const DB = require('../database/models');
 const sequelize = DB.sequelize;
 
 async function userLoggedMiddleware(req, res, next) {
-    res.locals.userLogged = false;
+    console.log('vamos a traer el res.locals')
+    console.log(res.locals.userLogged)
+
+    //res.locals.userLogged = false;
+
     console.log('aca se viene la cookie')
     console.log(req.cookies)
-    
+
+    if(!req.session.userLogged){
+        res.locals.userLogged = false;
+    }else{
+        res.locals.userLogged = req.session.userLogged
+    }
     if(req.cookies.email){
         console.log('entre al if de email in cookie')
         let emailInCookie = req.cookies.email
