@@ -11,8 +11,9 @@
                     <% } %>
                         <li><a href="/">Home</a></li>
                         <li><a href="/productos/listar">Productos</a></li>
+                      <% if(locals.userLogged.isAdmin == 1){%>
                         <li><a href="/productos/create">Nuevo</a></li>
-
+                        <%}%>
             </div>
 
             <form action="procesar.php" method="POST">

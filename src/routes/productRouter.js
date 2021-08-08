@@ -5,6 +5,8 @@ const multer = require('multer');
 const path = require('path');
 const { body } = require('express-validator')
 const validations = require('../middlewares/productValidation');
+const isAdmin = require('../middlewares/adminLoggedValidation');
+
 
 const storage = multer.diskStorage({
     destination: path.resolve(__dirname, '../../public/img/products'),
@@ -31,14 +33,14 @@ router.get('/edit/:id', productController.edit)
 
 router.get('/detail/:id', productController.detail)
 
-router.get('/create', upload.fields([{name:'image'},{name:'image2'},{name:'image3'}]), validations, productController.create)
+router.get('/create', upload.fields([{name:'image'},{name:'image2'},{name:'image3'}]), validations, isAdmin, productController.create)
 
-router.post('/store', upload.fields([{name:'image'},{name:'image2'},{name:'image3'}]), validations, productController.store);
+router.post('/store', upload.fields([{name:'image'},{name:'image2'},{name:'image3'}]), validations, isAdmin, productController.store);
 
-router.put('/:id', upload.fields([{name:'image'},{name:'image2'},{name:'image3'}]), validations, productController.update);
+router.put('/:id', upload.fields([{name:'image'},{name:'image2'},{name:'image3'}]), validations, isAdmin, productController.update);
 
 //router.put('/:id/recover', productController.recover);
 
-router.delete('/:id', productController.destroy);
+router.delete('/:id', isAdmin, productController.destroy);
 
 module.exports = router;

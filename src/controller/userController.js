@@ -53,6 +53,12 @@ let userController = {
     login: (req, res) => {
         res.render(path.resolve(__dirname, '..', 'views', 'inicio-sesion'));
     },
+    perfil: (req,res) =>{
+        let user = req.session.userLogged
+    console.log('aca se viene el user ')
+    console.log(user)
+    res.render(path.resolve(__dirname, '..', 'views', 'profile'),{user})
+    },
     loginProcess: async(req, res) => {
         try {
             let userToLog = await db.User.findOne({ where: { email: req.body.correo } })
@@ -62,6 +68,8 @@ let userController = {
                 if (passValidation) {
                     delete userToLog.password
                     req.session.userLogged = userToLog
+                    //console.log(req.session.userLogged)
+                    res.locals.userLogged = req.session.userLogged
 
                     if (req.body.recordame) {
                         res.cookie('email', req.body.correo, { maxAge: (1000 * 60) * 2 })
@@ -124,8 +132,11 @@ let userController = {
     },
 
     logout: (req, res) => {
-        res.clearCookie('usuario')
+        res.clearCookie('email')
         req.session.destroy()
+        console.log('ACA ESTA EL SESSIONNNN '+ req.session)
+        res.locals.userLogged = false
+        console.log('este es el LOGOUTTTTTTT '  + res.locals.userLogged)
         return res.redirect('/')
     }
 }

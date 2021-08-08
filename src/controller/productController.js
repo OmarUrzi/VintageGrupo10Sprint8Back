@@ -99,6 +99,7 @@ let productController = {
     
 
 edit: async (req, res) => {
+    if(req.session.userLogged.isAdmin == 1){
     try {
         let productBrand = await DB.Brand.findAll()
         let productCategory = await DB.Category.findAll()
@@ -116,6 +117,9 @@ edit: async (req, res) => {
     } catch (error) {
         res.render('error404');
         console.log(error);
+    }
+    }else{
+        res.redirect('/users/inicio-sesion')
     }
 },
 

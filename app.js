@@ -6,6 +6,7 @@ const puerto = process.env.PORT
 const methodOverride = require('method-override');
 const session = require('express-session');
 const userLoggedMiddleware = require('./src/middlewares/userLoggedMiddleware')
+//const adminLoggedMiddleware = require('./src/middlewares/adminLoggedMiddleware')
 const cookies = require('cookie-parser')
 
 const homeRouter = require('./src/routes/homeRouter');
@@ -29,6 +30,7 @@ app.use(session({
     saveUninitialized: false,
 }));
 app.use(cookies())
+//app.use(adminLoggedMiddleware)
 app.use(userLoggedMiddleware)
 
 app.listen(puerto || 3000, function() {

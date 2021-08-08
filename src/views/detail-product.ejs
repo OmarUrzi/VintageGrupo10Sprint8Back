@@ -49,6 +49,8 @@
                                     <button type="submit" value="Comprar" class="comprar">Comprar</button>
                                 </div>
                             </form>
+                            <% if(locals.userLogged.isAdmin == 1){%>
+                    
                             <div class="container-config">
                             <div class="Configuracion">
                                 <% if(product.status == 'live') { %>
@@ -67,7 +69,8 @@
                                     <a href="/productos/edit/<%= product.id %>">Editar</a>
                                 </form>
                             </div>     
-                            </div>                  
+                            </div>  
+                        <%}%>                
                     </div>
                 </div>
                 </div>
