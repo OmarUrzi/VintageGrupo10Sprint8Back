@@ -26,7 +26,11 @@
             </form>
             <% if (locals.userLogged != false) {%>
                 <div class="profile-details">
+                    <%if(locals.userLogged.profilePicture){%>
+                        <a href="/users/profile"><img src="/img/imageUser/<%= locals.userLogged.profilePicture %>" alt=""></a>
+                   <% }else{ %>
                     <a href="/users/profile"><img src="/img/imageUser/index.png" alt=""></a>
+                   <%}%>
                 </div>
                 <% } %>
         </ul>

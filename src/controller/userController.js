@@ -12,6 +12,7 @@ let userController = {
 
     processRegister: async(req, res) => {
         try {
+            
             const resultValidation = validationResult(req)
             if (resultValidation.errors.length > 0) {
                 return res.render(path.resolve(__dirname, '..', 'views', 'registro'),{
@@ -34,11 +35,17 @@ let userController = {
                     oldData: req.body
                 })
             }
+
+            if(req.file.filename){
+                const imageProfile = req.file.filename
+            }else{
+                const imageProfile = "index.png"
+            }
             let userToCreate = {
                 firstName: req.body.nombre,
                 email: req.body.correo,
                 password: bcryptjs.hashSync(req.body.password, 10),
-                profilePicturer: req.file.filename,
+                profilePicture: imageProfile,
                 isAdmin: 0
             }
             console.log(`USUARIO POR CREARSE:`, { userToCreate });
@@ -46,7 +53,7 @@ let userController = {
             let userCreated = await db.User.create(userToCreate);
             console.log(`USUARIO CREADO:`, { userCreated })
 
-            return res.redirect('/');
+            return res.redirect('/inicio-sesion');
         } catch (error) { console.log(error) }
     },
 

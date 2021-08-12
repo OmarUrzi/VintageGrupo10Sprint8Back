@@ -16,6 +16,7 @@ async function userLoggedMiddleware(req, res, next) {
     }else{
         res.locals.userLogged = req.session.userLogged
     }
+    
     if(req.cookies.email){
         console.log('entre al if de email in cookie')
         let emailInCookie = req.cookies.email
