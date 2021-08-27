@@ -13,7 +13,8 @@ const homeRouter = require('./src/routes/homeRouter');
 const productRouter = require('./src/routes/productRouter');
 const carritoRouter = require('./src/routes/carritoRouter');
 const userRouter = require('./src/routes/userRouter');
-
+const userApiRouter = require('./src/routes/api/userApiRouter')
+const productApiRouter = require('./src/routes/api/productApiRouter')
 
 app.set('view engine', 'ejs')
 app.use(express.json())
@@ -41,3 +42,5 @@ app.use('/', homeRouter);
 app.use('/productos', productRouter);
 app.use('/carrito', carritoRouter);
 app.use('/users', userRouter);
+app.use('/api/v1/user',userApiRouter )
+app.use('/api/v1/productos', productApiRouter);
