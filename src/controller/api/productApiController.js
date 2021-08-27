@@ -44,7 +44,7 @@ const productAPIController = {
                         color: product.colors.dataValues.name,
                         size: product.sizes.dataValues.name,
                         image: product.image,
-                        details: req.headers.host + `/api/v1/products/${product.id}`
+                        details: req.headers.host + `/api/v1/productos/${product.id}`
                     })
                     return product
                 });
@@ -71,7 +71,7 @@ const productAPIController = {
                     meta: {
                         status: 200,
                         total: product.length,
-                        url: '/api/v1/products/:id'
+                        url: '/api/v1/productos/:id'
                     },
                     data: {
                         id: product.id,
@@ -103,7 +103,7 @@ const productAPIController = {
                 meta: {
                     status : 200,
                     total: products.length,
-                    url: '/api/v1/products/count',
+                    url: '/api/v1/productos/count',
                     text: "El total de categorias es " + categories.length
                 },
                 data: {}
@@ -127,7 +127,7 @@ const productAPIController = {
         let respuesta = {
             meta: {
                 status: 200,
-                url: '/api/v1/products/latest'
+                url: '/api/v1/productos/latest'
             },
         data: {
             id: product.id,
