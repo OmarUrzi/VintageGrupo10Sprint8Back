@@ -2,12 +2,8 @@ const path = require('path');
 let db = require('../../database/models');
 const sequelize = db.sequelize;
 const Product = db.Product;
-/*const Brand = db.Brand;
-const Category = db.Category;
-const Color = db.Color;
-const Size = db.Size;
-const Visibility = db.Visibility;
-const Image = db.Image;*/
+const _include = ["brands", "categories", "colors", "sizes"]
+
 
 const productAPIController = {
 
@@ -20,9 +16,7 @@ const productAPIController = {
                     attributes:[
                         'id', 'name', 'description', 'price','discount','image','keywords'
                     ],
-                    include: [
-                       "brands", "categories", "colors", "sizes"
-                    ]
+                    include: _include
                 });
                 
 
@@ -67,12 +61,10 @@ const productAPIController = {
     },
 
     detail: (req, res) =>{
-        console.log('entre a Detail product')
-        console.log('----------------------------')
         let productId = req.params.id;
         Product.findByPk(productId,
             {
-                include : ['images','category','brand', 'color', 'size', 'visibility' ]
+                include : _include
             })
             .then(product => {
                 let respuesta = {
@@ -82,19 +74,17 @@ const productAPIController = {
                         url: '/api/v1/products/:id'
                     },
                     data: {
-                    id: product.id,
-                    category: product.category.name,
-                    name: product.name,
-                    description: product.description,
-                    extended_description: product.extended_description,
-                    price: product.price,
-                    color: product.color.name,
-                    size: product.size.name,
-                    stock: product.stock,
-                    stock_min: product.stock_min,
-                    stock_max: product.stock_max,
-                    image: '/images/' + product.images[0].name,
-                    visibilidad: product.visibility.name
+                        id: product.id,
+                        name: product.name,
+                        description: product.description,
+                        discount: product.discount,
+                        price: product.price,
+                        keywords: product.keywords,
+                        brand: product.brands.dataValues.name,
+                        category: product.categories.dataValues.name,
+                        color: product.colors.dataValues.name,
+                        size: product.sizes.dataValues.name,
+                        image: product.image,
                 }
                 }
                 res.json(respuesta);
@@ -106,22 +96,19 @@ const productAPIController = {
 
     count: async (req, res) =>{
         try{ 
-            let products = await Product.findAll({
-                include: [
-                   "brand", "category", "color", "size", "visibility", "images"
-                ]
-            });
+            let products = await Product.findAll();
             
             const categoria = req.params.category;
             let respuesta = {
                 meta: {
                     status : 200,
                     total: products.length,
-                    url: '/api/v1/products/count'
+                    url: '/api/v1/products/count',
+                    text: "El total de categorias es " + categories.length
                 },
-                data: products
+                data: {}
             }
-            res.json("El total de productos es: " + respuesta.meta.total);
+            res.json(respuesta);
         }
         catch(error){
             res.send({ err: 'Not found' });
@@ -129,14 +116,11 @@ const productAPIController = {
     },
 
     latest: (req, res) =>{
-
         Product.findOne({ 
         order: [
             ['id', 'DESC']
         ],
-        include: [
-            "brand", "category", "color", "size", "visibility", "images"
-         ]
+        include: _include
     })
     .then( product => JSON.parse(JSON.stringify(product)))
     .then( product => {
@@ -146,32 +130,27 @@ const productAPIController = {
                 url: '/api/v1/products/latest'
             },
         data: {
-        id: product.id,
-        category: product.category.name,
-        name: product.name,
-        description: product.description,
-        extended_description: product.extended_description,
-        price: product.price,
-        color: product.color.name,
-        size: product.size.name,
-        stock: product.stock,
-        stock_min: product.stock_min,
-        stock_max: product.stock_max,
-        image: '/images/' + product.images[0].name,
-        visibilidad: product.visibility.name
+            id: product.id,
+            name: product.name,
+            description: product.description,
+            discount: product.discount,
+            price: product.price,
+            brand: product.brands.name,
+            category: product.categories.name,
+            color: product.colors.name,
+            size: product.sizes.name,
+            image: product.image
     }
 }
 res.json(respuesta);
     })
     
     .catch( err => {
+        console.log(err)
         res.send({ err: 'Not found' });
     })
     
 }
-    
-
-
 }
 
 module.exports = productAPIController;

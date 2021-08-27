@@ -4,6 +4,8 @@ const usersApiController = require('../../controller/api/usersApiController');
 
 router.get('/', usersApiController.list);
 
+router.get('/count', usersApiController.count)
+
 router.get('/:id', usersApiController.detail);
 
 

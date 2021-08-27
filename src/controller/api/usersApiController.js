@@ -64,7 +64,24 @@ const usersAPIController = {
                 res.send({ err: 'Not found' });
             });
     },
-    
+    count: (req, res) =>{
+        User.findAll()
+        .then(users => {
+            let respuesta = {
+                meta: {
+                    status : 200,
+                    total: users.length,
+                    url: 'api/users/count',
+                    text: "El total de users es " + users.length
+                },
+                data: {}
+            }
+         res.json(respuesta);
+        })
+        .catch( err => {
+            res.send({ err: 'Not found' });
+        });
+    }
 }
 
 module.exports = usersAPIController;
