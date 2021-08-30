@@ -3,6 +3,7 @@ let db = require('../../database/models');
 const sequelize = db.sequelize;
 const User = db.User;
 const Rol = db.Rol;
+const pagination = require('./paginationApiUsers')
 
 const usersAPIController = {
 
@@ -35,7 +36,7 @@ const usersAPIController = {
                 res.send({ err: 'Not found' });
             });
         } else {
-            res.send({ err: 'Not found' });
+            pagination(req, res);
         }
     },
     detail: (req, res) =>{

@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const path = require('path');
-const puerto = process.env.PORT
+var port = process.env.PORT || 3001;
 
 const methodOverride = require('method-override');
 const session = require('express-session');
@@ -36,8 +36,8 @@ app.use(cookies())
 //app.use(adminLoggedMiddleware)
 app.use(userLoggedMiddleware)
 
-app.listen(puerto || 3000, function() {
-    console.log("Servidor corriendo en el puerto 3000");
+app.listen(port, function() {
+    console.log("Servidor corriendo en el puerto " + port);
 });
 
 app.use('/', homeRouter);

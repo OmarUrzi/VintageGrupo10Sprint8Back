@@ -4,6 +4,7 @@ const sequelize = DB.sequelize;
 const { Op } = require("sequelize");
 const { nextTick } = require('process');
 
+
 let productController = {
     home: (req, res) => {
         res.redirect('/');

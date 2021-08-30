@@ -5,6 +5,7 @@ const Product = db.Product;
 const Category = db.Category
 const Brand = db.Brand
 const _include = ["brands", "categories", "colors", "sizes"]
+const pagination = require('./paginationApiProducts');
 
 
 const productAPIController = {
@@ -55,7 +56,7 @@ const productAPIController = {
                         productsByCategories: productsByCategories,
                         productsByBrands: productsByBrands,
                         total: products.length,
-                        url: '/api/v1/products'
+                        url: '/api/v1/productos'
                     },
                     data: {
                         list: []
@@ -87,7 +88,7 @@ const productAPIController = {
                 res.send({ err: 'Not found' });
             }
         } else {
-            res.send({ err: 'Not found' });
+            pagination(req, res);
         }
     },
 
