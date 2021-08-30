@@ -2,6 +2,8 @@ const path = require('path');
 let db = require('../../database/models');
 const sequelize = db.sequelize;
 const Product = db.Product;
+const Category = db.Category
+const Brand = db.Brand
 const _include = ["brands", "categories", "colors", "sizes"]
 
 
@@ -18,11 +20,40 @@ const productAPIController = {
                     ],
                     include: _include
                 });
-                
+                let categories = await Category.findAll({
+                    include: [
+                        'products'
+                    ]
+                });
+                let brands = await Brand.findAndCountAll({
+                    include: [
+                        'products'
+                    ]
+                  });
+
+                let productsByCategories = []
+
+                categories.forEach(categories => {
+                        productsByCategories.push({
+                        name: categories.name,
+                        lengthProducts: categories.products.length
+                    })
+                });
+
+                let productsByBrands = [];
+
+                brands.rows.forEach((brand) => {
+                    productsByBrands.push({
+                        name: brand.name,
+                        value: brand.products.length,
+                    });
+                });
 
                 let response = {
                     meta: {
                         status : 200,
+                        productsByCategories: productsByCategories,
+                        productsByBrands: productsByBrands,
                         total: products.length,
                         url: '/api/v1/products'
                     },

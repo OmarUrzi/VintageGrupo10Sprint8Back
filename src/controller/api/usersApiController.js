@@ -55,7 +55,7 @@ const usersAPIController = {
                         userId : user.id,
                         firstName : user.firstName,
                         email : user.email,
-                        profilePicture : req.headers.host + '/avatars/' + user.avatar
+                        profilePicture : req.headers.host + '/avatars/' + user.profilePicture
                     }
                 }
                 res.json(respuesta);
