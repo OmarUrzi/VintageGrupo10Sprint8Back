@@ -232,8 +232,10 @@ const productAPIController = {
         ],
         include: _include
     })
+   
     .then( product => JSON.parse(JSON.stringify(product)))
     .then( product => {
+        console.log(product)
         let respuesta = {
             meta: {
                 status: 200,
@@ -248,7 +250,6 @@ const productAPIController = {
             brand: product.brands.name,
             category: product.categories.name,
             color: product.colors.name,
-            size: product.sizes.name,
             image: product.image
     }
 }
