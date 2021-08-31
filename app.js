@@ -3,6 +3,8 @@ const app = express()
 const path = require('path');
 var port = process.env.PORT || 3001;
 
+const cors = require('cors')
+
 const methodOverride = require('method-override');
 const session = require('express-session');
 const userLoggedMiddleware = require('./src/middlewares/userLoggedMiddleware')
@@ -24,7 +26,7 @@ app.use(express.json())
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
-
+app.use(cors())
 
 
 app.use(session({

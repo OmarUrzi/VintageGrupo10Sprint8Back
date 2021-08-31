@@ -134,7 +134,7 @@ const productAPIController = {
     brandsCount: async (req,res) =>{
         if ( !req.query.query ) {
             try{ 
-                let categories = await Brand.findAll({
+                let brands = await Brand.findAll({
                     include: [
                         'products'
                     ]
@@ -144,17 +144,17 @@ const productAPIController = {
                 let response = {
                     meta: {
                         status : 200,
-                        total: categories.length,
-                        url: '/api/v1/productos/categories'
+                        total: brands.length,
+                        url: '/api/v1/productos/brands'
                     },
                     data: {
                         list: []
                     }
                 }
-                categories.forEach(categories => {
+                brands.forEach(brands => {
                     response.data.list.push({
-                    name: categories.name,
-                    lengthProducts: categories.products.length
+                    name: brands.name,
+                    lengthProducts: brands.products.length
                     })
                 });
 
