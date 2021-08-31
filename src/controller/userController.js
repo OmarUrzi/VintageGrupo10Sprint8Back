@@ -35,11 +35,11 @@ let userController = {
                     oldData: req.body
                 })
             }
-
+            console.log(req.file)
             if(req.file.filename){
-                const imageProfile = req.file.filename
+                var imageProfile = req.file.filename
             }else{
-                const imageProfile = "index.png"
+                var imageProfile = "index.png"
             }
             let userToCreate = {
                 firstName: req.body.nombre,
@@ -53,7 +53,7 @@ let userController = {
             let userCreated = await db.User.create(userToCreate);
             console.log(`USUARIO CREADO:`, { userCreated })
 
-            return res.redirect('/inicio-sesion');
+            return res.render(path.resolve(__dirname, '..', 'views', 'inicio-sesion'));
         } catch (error) { console.log(error) }
     },
 
