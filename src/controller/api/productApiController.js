@@ -92,6 +92,84 @@ const productAPIController = {
         }
     },
 
+    categoriesCount: async (req,res) =>{
+        if ( !req.query.query ) {
+            try{ 
+                let categories = await Category.findAll({
+                    include: [
+                        'products'
+                    ]
+                });
+
+
+                let response = {
+                    meta: {
+                        status : 200,
+                        total: categories.length,
+                        url: '/api/v1/productos/categories'
+                    },
+                    data: {
+                        list: []
+                    }
+                }
+                categories.forEach(categories => {
+                    response.data.list.push({
+                    name: categories.name,
+                    lengthProducts: categories.products.length
+                    })
+                });
+
+                console.log(response)
+               return res.json(response);
+            }
+            catch(error){
+                console.log(error)
+                res.send({ err: 'Not found' });
+            }
+        } else {
+            pagination(req, res);
+        }
+    },
+
+    brandsCount: async (req,res) =>{
+        if ( !req.query.query ) {
+            try{ 
+                let categories = await Brand.findAll({
+                    include: [
+                        'products'
+                    ]
+                });
+
+
+                let response = {
+                    meta: {
+                        status : 200,
+                        total: categories.length,
+                        url: '/api/v1/productos/categories'
+                    },
+                    data: {
+                        list: []
+                    }
+                }
+                categories.forEach(categories => {
+                    response.data.list.push({
+                    name: categories.name,
+                    lengthProducts: categories.products.length
+                    })
+                });
+
+                console.log(response)
+               return res.json(response);
+            }
+            catch(error){
+                console.log(error)
+                res.send({ err: 'Not found' });
+            }
+        } else {
+            pagination(req, res);
+        }
+    },
+
     detail: (req, res) =>{
         let productId = req.params.id;
         Product.findByPk(productId,
